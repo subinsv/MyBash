@@ -2,6 +2,7 @@
 
 **TNHITS:**
 * Script that scraps latest updates from Tnhits site
+
 **DEPENDENCIES:**
 * Requests
 * BeautifulSoup4
