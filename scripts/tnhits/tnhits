@@ -1,0 +1,22 @@
+#!/usr/bin/python3
+import requests
+from bs4 import BeautifulSoup
+
+def default():
+    print("Under development")
+    getUpdates()
+
+def getUpdates():
+    url = 'https://hqtamilsongs.in/'
+    r = requests.get(url)
+
+    html = BeautifulSoup(r.text,"html5lib")
+
+    for update in html.find_all("div","update"):
+        update_detail = update.find("font")
+        print(update_detail.text)
+        update_url = update.find("a",href=True)
+        print(update_url['href'],end="\n\n")
+
+
+getUpdates()
