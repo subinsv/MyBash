@@ -4,7 +4,7 @@ import os
 import shutil
 
 source_dir = "scripts/"
-destination_dir = "/usr/local/bin"
+destination_dir = os.path.expanduser('~/bin')
 
 for root,dirs,files in os.walk(source_dir):
     for filename in files:
@@ -14,7 +14,7 @@ for root,dirs,files in os.walk(source_dir):
         if extension != 'md':
             try:
                 shutil.copy(source_path,destination_path)
-                print("Files copied successfully to /usr/local/bin/")
+                print("Files copied successfully to ~/bin/")
             except OSError as e:
                 if e.errno == 13:
                     print("Please try running as sudo")
