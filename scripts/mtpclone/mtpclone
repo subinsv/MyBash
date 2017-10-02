@@ -2,7 +2,7 @@
 #subin_sv
 
 usage(){
-    echo "Usage: mtpclone [-m Music] [-p Pictues]";
+    echo "Usage: mtpclone [-m Music] [-p Pictues] [-f Full backup]";
     exit 1;
 }
 
@@ -17,7 +17,7 @@ elif [ -z "$1" ]
 then
     usage
 else
-    while getopts ":mp" opt;
+    while getopts ":mpf" opt;
     do
         case $opt in 
             "m")
@@ -30,6 +30,12 @@ else
             echo "Trying to sync Android DCIM folder to $HOME/Pictures/MobileBackup"
             START_TIME=$SECONDS;
             rsync --verbose --progress --omit-dir-times --no-perms --recursive --delete --update --exclude=".*" --exclude ".*/" "/run/user/1000/gvfs/$mtpname/Internal shared storage/DCIM/" "$HOME/Pictures/MobileBackup"
+            echo "Time elapsed: $((SECONDS-START_TIME)) seconds"
+            ;;
+            "f")
+            echo "Trying to backup Android Internal Storage to /mnt/2827A0ED3C7B53AA"
+            START_TIME=$SECONDS;
+            tar --exclude='.*' --exclude='.*/' --exclude='Android' --exclude='Alarms' --exclude='Arrow' --exclude='com.*' --exclude='Download' --exclude='MagiskManager' --exclude='Movies' --exclude='Notifications' --exclude='Podcasts' --exclude='Ringtones' --exclude='ROM' -zcvf "/mnt/2827A0ED3C7B53AA/Android_backup_$(date '+%F').tar.gz" "/run/user/1000/gvfs/$mtpname/Internal shared storage"
             echo "Time elapsed: $((SECONDS-START_TIME)) seconds"
             ;;
             *)
